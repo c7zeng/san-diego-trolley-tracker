@@ -12,23 +12,6 @@ npm start
 
 Open http://localhost:3000. The site works without an API token; AI questions then fall back to basic station-name matching.
 
-## Optional Hugging Face AI
-
-1. Create a Hugging Face token with inference permissions. **Never paste it in frontend code or commit it.**
-2. In your terminal, set `HF_TOKEN` as an environment variable and optionally `HF_MODEL` (default `openai/gpt-oss-120b`).
-3. Run `npm start` from the project root.
-
-Mac/Linux example:
-
-```bash
-export HF_TOKEN='YOUR_TOKEN_HERE'
-npm start
-```
-
-The server uses Hugging Face's OpenAI-compatible router (`router.huggingface.co/v1/chat/completions`). Availability, pricing and model compatibility depend on your account/provider. It does not access real-time transit data.
-
-**Security:** If any token has previously been shared publicly or in chat, revoke/rotate it and use a fresh one in the server environment.
-
 ## GitHub / hosting
 
 Create a repository and upload the **contents** of this folder. For a static demo, enable **Settings → Pages → Deploy from a branch**, choose `main` and `/ (root)`. GitHub Pages serves the map, trip planner and local assistant fallback, **but cannot run the `/api/chat` backend**. To enable AI for a public website, deploy `server/index.js` on a Node-compatible host with `HF_TOKEN` configured as a server-side secret; point your domain to that host. Do not put tokens in GitHub Pages.
