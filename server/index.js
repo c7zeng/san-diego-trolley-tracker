@@ -1,0 +1,13 @@
+// Optional server. Keep API tokens on the server, never in browser code or GitHub.
+import http from 'node:http';import {readFile,stat} from 'node:fs/promises';import {resolve,extname,sep,dirname} from 'node:path';import {fileURLToPath} from 'node:url';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');const port=Number(process.env.PORT||3000);
+const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml'};
+http.createServer(async(req,res)=>{const send=(code,body,type='application/json')=>{res.writeHead(code,{'Content-Type':type,'Access-Control-Allow-Origin':'*'});res.end(typeof body==='string'?body:JSON.stringify(body))};
+ if(req.url==='/api/chat'&&req.method==='POST'){
+  let body='';for await(const chunk of req){body+=chunk;if(body.length>12000)return send(413,{error:'Request too large'})}
+  let message;try{message=JSON.parse(body).message}catch{return send(400,{error:'Invalid JSON'})}if(typeof message!=='string'||!message.trim()||message.length>600)return send(400,{error:'Invalid message'});
+  const token=process.env.HF_TOKEN;if(!token)return send(503,{error:'HF_TOKEN not configured'});
+  try{const upstream=await fetch('https://router.huggingface.co/v1/chat/completions',{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({model:process.env.HF_MODEL||'openai/gpt-oss-120b',messages:[{role:'system',content:'You help users understand San Diego trolley travel. You have no access to live MTS arrivals or verified current timetables. Never invent exact departures, route statuses or station accessibility. State uncertainty and recommend checking official MTS schedules. Be concise.'},{role:'user',content:message}],max_tokens:350})});const data=await upstream.json();if(!upstream.ok)return send(502,{error:'AI provider request failed',detail:data?.error?.message||data?.error||upstream.status});return send(200,{answer:data.choices?.[0]?.message?.content||'No answer received.'})}catch{return send(502,{error:'Could not reach AI provider'})}}
+ if(req.method!=='GET')return send(405,{error:'Method not allowed'});
+ try{const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);const path=resolve(root,'.'+pathname+(pathname.endsWith('/')?'index.html':''));if(path!==root&&!path.startsWith(root+sep))return send(403,{error:'Forbidden'});const info=await stat(path);if(!info.isFile())return send(404,{error:'Not found'});const bytes=await readFile(path);res.writeHead(200,{'Content-Type':types[extname(path)]||'application/octet-stream'});res.end(bytes)}catch{return send(404,{error:'Not found'})}
+}).listen(port,()=>console.log(`Trolley Tracker: http://localhost:${port}`));

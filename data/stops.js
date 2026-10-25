@@ -1,0 +1,9 @@
+// Illustrative station coordinates and segment times, not official GTFS or live vehicle data.
+export const lines = {
+ blue:{name:'UC San Diego Blue Line',color:'#288bdf',headway:15,stops:['utc','ucsd','nobel','balboa','oldtown','washington','santafe','america','12imperial','sanysidro'],minutes:[3,4,11,9,5,5,2,7,34]},
+ green:{name:'Green Line',color:'#39b980',headway:15,stops:['santee','elcajon','grossmont','mission','oldtown','santafe','12imperial'],minutes:[13,7,13,15,9,9]},
+ orange:{name:'Orange Line',color:'#f1a33e',headway:15,stops:['elcajon','lammesa','euclid','citycollege','12imperial'],minutes:[10,17,12,5]}
+};
+export const stops=[
+ {id:'utc',name:'UTC',lat:32.8689,lng:-117.2128},{id:'ucsd',name:'UC San Diego Central Campus',lat:32.8781,lng:-117.2318},{id:'nobel',name:'Nobel Drive',lat:32.8677,lng:-117.2321},{id:'balboa',name:'Balboa Avenue',lat:32.8077,lng:-117.2167},{id:'oldtown',name:'Old Town',lat:32.7553,lng:-117.1994},{id:'washington',name:'Washington Street',lat:32.7496,lng:-117.1843},{id:'santafe',name:'Santa Fe Depot',lat:32.7167,lng:-117.1695},{id:'america',name:'America Plaza',lat:32.7161,lng:-117.1686},{id:'12imperial',name:'12th & Imperial',lat:32.7057,lng:-117.1533},{id:'sanysidro',name:'San Ysidro',lat:32.5446,lng:-117.0296},{id:'santee',name:'Santee Town Center',lat:32.8425,lng:-116.9869},{id:'elcajon',name:'El Cajon Transit Center',lat:32.7935,lng:-116.9765},{id:'grossmont',name:'Grossmont Transit Center',lat:32.7794,lng:-117.0093},{id:'mission',name:'Mission Valley Center',lat:32.7685,lng:-117.1533},{id:'lammesa',name:'La Mesa Boulevard',lat:32.7657,lng:-117.0198},{id:'euclid',name:'Euclid Avenue',lat:32.7100,lng:-117.0847},{id:'citycollege',name:'City College',lat:32.7165,lng:-117.1534}];
+export const stopById=Object.fromEntries(stops.map(s=>[s.id,s]));
