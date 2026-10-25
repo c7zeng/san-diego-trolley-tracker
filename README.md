@@ -1,8 +1,6 @@
-# San Diego Trolley Tracker 🚊
+# San Diego Trolley Tracker
 
-A responsive, GitHub-ready student transit project for San Diego. Includes an interactive Leaflet/OpenStreetMap station map, Blue/Green/Orange sample corridors, graph-based route estimates, arrival-deadline planning, a basic offline question fallback, and an **optional** Hugging Face AI server.
-
-> **Important:** This is a reconstruction, not the original project files. The station graph, segment durations, and map connections are **illustrative**. There is **no live GPS tracking**, verified GTFS timetable, or official 98-bus-route dataset bundled. Map polylines are straight lines, not actual track geometry. Check [MTS](https://www.sdmts.com/schedules-real-time) for real travel.
+This is a project includes an interactive Leaflet/OpenStreetMap station map, Blue/Green/Orange sample corridors, graph-based route estimates, arrival-deadline planning, a basic offline question fallback, and an Hugging Face AI server.
 
 ## Run locally
 
